@@ -1,2 +1,5 @@
 #ignore swap files
 *.swp
+
+#ignore build directories
+bin
