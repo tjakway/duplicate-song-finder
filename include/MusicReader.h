@@ -1,6 +1,10 @@
 #ifndef MUSICREADER_H_
 #define MUSICREADER_H_
 
+/**
+ * Everything in the extern C block is the interop between C++ and Haskell's Foreign Function Interface
+ */
+
 /* Use C linkage to guarantee compatibility with GHC FFI */
 extern "C" {
 
@@ -31,6 +35,10 @@ extern "C" {
         int track;
     };
 
+    /**
+     * read metadata from file and return new music_metadata
+     */
+    struct music_metadata* read_metadata(char*);
 }
 
 #endif
