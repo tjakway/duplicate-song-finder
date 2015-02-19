@@ -7,6 +7,7 @@
 #include <string>
 #include <algorithm> //std::copy
 #include <cassert>
+#include "CodecDefines.h"
 
 
 /**
@@ -15,8 +16,10 @@
  *
  * WARNING: THIS WILL FAIL IF THE FILE HAS NO EXTENSION AND THE DIRECTORY CONTAINS A PERIOD (then again, TagLib detects filetype from extensions so it'll fail too)
  */
-static int get_extension(std::string& filename)
+static int get_extension(const char* c_file_str)
 {
+    std::string filename(c_file_str);
+
     //get the position of the last period in the filename
     size_t last_dot = filename.find_last_of(".");
     //if there is no period it doesn't have an extension
@@ -104,6 +107,10 @@ struct music_metadata* read_metadata(char* filename)
     metadata->length = properties->length();
     metadata->bitrate = properties->bitrate();
     metadata->channels = properties->channels();
+
+    //get the file type
+    //this is very simplistic: it only checks the filename extension 
+    metadata->codec = get_extension(filename);
 
     //next handle audio properties
     return metadata;
