@@ -3,3 +3,15 @@
 
 #ignore build directories
 bin
+dist
+
+#ignore binaries
+*.o
+*.a
+
+#cmake generated files
+CMakeCache.txt
+CMakeFiles
+#WARNING: remove this line if any custom makefile is written
+Makefile
+cmake_install.cmake
