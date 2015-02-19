@@ -18,7 +18,7 @@
  *
  * WARNING: DOES *NOT* SUPPORT UNICODE
  */
-char* copy_to_cstr(TagLib::String taglib_string)
+static char* copy_to_cstr(TagLib::String taglib_string)
 {
     std::string cpp_string = taglib_string.to8Bit(false);
 
@@ -44,12 +44,19 @@ struct music_metadata* read_metadata(char* filename)
    try
    {    
     TagLib::FileRef fileRef(filename);
+    if(fileRef.isNull())
+    {
+        //FIXME: handle error, probably by throwing an exception
+    }
+
+
     TagLib::Tag* tag = fileRef.tag();
     metadata->title = copy_to_cstr(tag->title());
     metadata->artist = copy_to_cstr(tag->artist());
     metadata->album = copy_to_cstr(tag->album());
     metadata->comment = copy_to_cstr(tag->comment());
     metadata->genre = copy_to_cstr(tag->genre());
+    metadata->track = tag->track;
 
     TagLib::AudioProperties* properties = fileRef.audioProperties();
     metadata->length = properties->length();
@@ -61,8 +68,10 @@ struct music_metadata* read_metadata(char* filename)
    }
    catch(...)
    {
+       //FIXME: need a strategy for propagating errors from C -> Haskell
      return NULL;
    } 
 }
 
 int main() { }
+
