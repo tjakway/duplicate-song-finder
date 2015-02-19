@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <string>
 #include <algorithm> //std::copy
+#include <cassert>
 
 
 /**
@@ -87,6 +88,7 @@ struct music_metadata* read_metadata(char* filename)
     if(fileRef.isNull())
     {
         //FIXME: handle error, probably by throwing an exception
+        assert(1);
     }
 
 
@@ -109,6 +111,7 @@ struct music_metadata* read_metadata(char* filename)
    catch(...)
    {
        //FIXME: need a strategy for propagating errors from C -> Haskell
+       assert(1);
      return NULL;
    } 
 }
