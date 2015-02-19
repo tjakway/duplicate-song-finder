@@ -8,21 +8,22 @@
 /* Use C linkage to guarantee compatibility with GHC FFI */
 extern "C" {
 
-    enum codec
-    {
-        MP3 = 1,
-        FLAC = 2,
-        OGG_VORBIS = 3,
-        MP4 = 4,
-        MPEG = 5
-    };
+//use an int to store codec type instead of an enum because we need to know the byte offsets in the struct and enums are technically not always ints
+//see http://stackoverflow.com/questions/1113855/is-the-sizeofenum-sizeofint-always
+#define MP3_CODEC 1
+#define FLAC_CODEC 2
+#define OGG_VORBIS_CODEC 3
+#define MP4_CODEC 4
+#define MPEG_CODEC 5
 
     struct music_metadata
     {
-        enum codec codec_type;
-        int length,
-            bitrate,
-            channels;
+        int32_t codec;
+        int32_t length,
+                bitrate,
+                channels;
+        //on x86, pointers will be 4 bytes
+        //on AMD64, pointers will be 8 bytes
         char *title,
              *artist,
              *album,
@@ -32,7 +33,7 @@ extern "C" {
          * but it is highly unlikely an album contains enough
          * tracks to overflow the sign bit and this means Haskell
          * doesn't have to know about unsigned integers*/
-        int track;
+        int32_t track;
     };
 
     /**
