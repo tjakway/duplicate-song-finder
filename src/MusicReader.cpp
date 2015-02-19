@@ -7,6 +7,46 @@
 #include <string>
 #include <algorithm> //std::copy
 
+
+/**
+ * returns the extension of the passed file or NULL if it doesn't have one
+ * see http://stackoverflow.com/questions/51949/how-to-get-file-extension-from-string-in-c
+ *
+ * WARNING: THIS WILL FAIL IF THE FILE HAS NO EXTENSION AND THE DIRECTORY CONTAINS A PERIOD (then again, TagLib detects filetype from extensions so it'll fail too)
+ */
+static int get_extension(std::string& filename)
+{
+    //get the position of the last period in the filename
+    size_t last_dot = filename.find_last_of(".");
+    //if there is no period it doesn't have an extension
+    if(last_dot == std::string::npos)
+        return NO_EXTENSION;
+
+    std::string extension = filename.substr(filename.find_last_of(".") + 1);
+    if(extension == "mp3")
+    {
+        return MP3_CODEC;
+    }
+    else if(extension == "flac")
+    {
+        return FLAC_CODEC;   
+    }
+    else if(extension == "ogg")
+    {
+        return OGG_VORBIS_CODEC;
+    }
+    else if(extension == "mp4")
+    {
+        return MP4_CODEC;
+    }
+    else if(extension == "mpeg")
+    {
+        return MPEG_CODEC;
+    }
+    else
+        return UNKNOWN_EXTENSION
+}
+
 /**
  * copy a C++ string into a new c string
  * std::string.c_str() is not sufficient because it only has the lifetime
