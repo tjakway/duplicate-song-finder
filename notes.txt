@@ -1,0 +1,3 @@
+Notes
+---------------------------------------
+Is it possible to query the volume from a music file? -- some music playback programs can equalize volume across all songs
