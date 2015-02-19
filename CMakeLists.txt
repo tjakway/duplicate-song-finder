@@ -1,11 +1,8 @@
-project(music-duplicate-finder-cpp)
+project(duplicate-music-finder-cpp)
 
 cmake_minimum_required(VERSION 2.8.0)
 
-
-
 #find taglib
-
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 
 find_package(Taglib REQUIRED)
@@ -20,7 +17,5 @@ include_directories("${CMAKE_SOURCE_DIR}/include")
 
 set(SRC "${CMAKE_SOURCE_DIR}/src")
 
-add_executable(mdup
+add_library(MusicReader
     ${SRC}/MusicReader.cpp)
-
-target_link_libraries(${EXE_NAME} ${TAGLIB_LIBRARIES})

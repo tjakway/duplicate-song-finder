@@ -113,5 +113,3 @@ struct music_metadata* read_metadata(char* filename)
    } 
 }
 
-int main() { }
-
