@@ -1,7 +1,8 @@
 #include "MusicReader.h"
 
-#include <taglib/tag.h> //Taglib
-#include <taglib/fileref.h> //Taglib
+#include <taglib/tag.h>
+#include <taglib/fileref.h>
+#include <taglib/audioproperties.h>
 #include <cstdlib>
 #include <string>
 #include <algorithm> //std::copy
@@ -12,6 +13,8 @@
  * of the C++ string object
  *
  * if the C++ string is empty it will return a C string containing only a null terminator
+ *
+ * this function is essentially strdup
  *
  * WARNING: DOES *NOT* SUPPORT UNICODE
  */
@@ -43,10 +46,15 @@ struct music_metadata* read_metadata(char* filename)
     TagLib::FileRef fileRef(filename);
     TagLib::Tag* tag = fileRef.tag();
     metadata->title = copy_to_cstr(tag->title());
-    metadata->artist = copy_to_cstr(fileRef.tag()->artist());
-    metadata->album = copy_to_cstr(fileRef.tag()->album());
-    metadata->comment = copy_to_cstr(fileRef.tag()->comment());
-    metadata->genre = copy_to_cstr(fileRef.tag()->genre());
+    metadata->artist = copy_to_cstr(tag->artist());
+    metadata->album = copy_to_cstr(tag->album());
+    metadata->comment = copy_to_cstr(tag->comment());
+    metadata->genre = copy_to_cstr(tag->genre());
+
+    TagLib::AudioProperties* properties = fileRef.audioProperties();
+    metadata->length = properties->length();
+    metadata->bitrate = properties->bitrate();
+    metadata->channels = properties->channels();
 
     //next handle audio properties
     return metadata;
