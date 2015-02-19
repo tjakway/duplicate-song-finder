@@ -67,3 +67,5 @@ executable duplicate-song-finder
   
   extra-libraries: MusicReader
   includes: CodecDefines.h 
+
+  other-modules: MusicReader

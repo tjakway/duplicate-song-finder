@@ -1,5 +1,10 @@
 {-# LANGUAGE CPP, LANGUAGE ForeignFunctionInterface #-}
 
+module MusicReader
+( Codec,
+  Metadata
+) where
+
 import Foreign
 import Foreign.C.Types
 
@@ -33,3 +38,6 @@ data Metadata = Metadata { codec :: Codec,
                       album :: String,
                       comment :: String,
                       genre :: String } deriving (Show)
+
+
+
