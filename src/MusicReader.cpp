@@ -44,7 +44,7 @@ static int get_extension(std::string& filename)
         return MPEG_CODEC;
     }
     else
-        return UNKNOWN_EXTENSION
+        return UNKNOWN_EXTENSION;
 }
 
 /**
@@ -96,7 +96,7 @@ struct music_metadata* read_metadata(char* filename)
     metadata->album = copy_to_cstr(tag->album());
     metadata->comment = copy_to_cstr(tag->comment());
     metadata->genre = copy_to_cstr(tag->genre());
-    metadata->track = tag->track;
+    metadata->track = tag->track();
 
     TagLib::AudioProperties* properties = fileRef.audioProperties();
     metadata->length = properties->length();

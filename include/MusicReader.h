@@ -1,6 +1,8 @@
 #ifndef MUSICREADER_H_
 #define MUSICREADER_H_
 
+#include <cstdint>
+
 /**
  * Everything in the extern C block is the interop between C++ and Haskell's Foreign Function Interface
  */
