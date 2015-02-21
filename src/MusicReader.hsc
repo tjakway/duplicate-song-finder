@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP, LANGUAGE ForeignFunctionInterface #-}
+{-# LANGUAGE CPP, ForeignFunctionInterface #-}
 
 module MusicReader
 ( Codec,
@@ -10,13 +10,14 @@ import Foreign.C.Types
 
 #include "CodecDefines.h"
 
-constantToCodec code = case code of mp3 -> MP3
-                                    flac -> FLAC
-                                    ogg -> OGG_VORBIS
-                                    mp4 -> MP4
-                                    mpeg -> MPEG
-                                    none -> NONE
-                                    unknown -> UNKNOWN
+constantToCodec code
+                    | code == mp3 = MP3
+                    | code == flac = FLAC
+                    | code == ogg = OGG_VORBIS
+                    | code == mp4 = MP4
+                    | code == mpeg = MPEG
+                    | code == none = NONE
+                    | code == unknown = UNKNOWN
                        where mp3 = #const MP3_CODEC
                              flac = #const FLAC_CODEC
                              ogg = #const OGG_VORBIS_CODEC 
@@ -26,7 +27,7 @@ constantToCodec code = case code of mp3 -> MP3
                              unknown = #const UNKNOWN_EXTENSION
 
 
-data Codec = MP3 | FLAC | OGG_VORBIS | MP4 | MPEG | NONE | UNKNOWN
+data Codec = MP3 | FLAC | OGG_VORBIS | MP4 | MPEG | NONE | UNKNOWN deriving (Show)
 
 data Metadata = Metadata { codec :: Codec,
                       length :: Int,
