@@ -2,8 +2,7 @@
 
 module MusicReader
 ( Codec,
-  Metadata,
-  readMusicMetadata
+  Metadata
 ) where
 
 import Control.Monad
@@ -67,4 +66,9 @@ instance Storable Metadata where
         return (Metadata codec length bitrate channels track marshalledTitle marshalledArtist marshalledAlbum marshalledComment marshalledGenre)
     poke a = undefined
 
-foreign import ccall unsafe "read_metadata" readMusicMetadata :: CString -> IO (Ptr Metadata)
+--This is the "primitive" FFI call--calls the C function and gets a pointer
+--in return
+--TODO: write a higher level function this module should export that calls
+--primReadMusicMetadata and converts the C Pointer into the Haskell data
+--Metadata
+foreign import ccall unsafe "read_metadata" primReadMusicMetadata :: CString -> IO (Ptr Metadata)
