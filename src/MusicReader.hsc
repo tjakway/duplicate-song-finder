@@ -64,4 +64,5 @@ instance Storable Metadata where
         marshalledComment <- peekCString comment
         marshalledGenre <- peekCString genre
         return (Metadata codec length bitrate channels track marshalledTitle marshalledArtist marshalledAlbum marshalledComment marshalledGenre)
+    poke a = undefined
 
