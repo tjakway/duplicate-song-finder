@@ -1,0 +1,11 @@
+MUSIC DUPLICATE FINDER DESIGN DOCUMENT
+
+* Taglib's AudioProperties class has only audio properties common to most codecs.  BUT FLAC::Properties also has a signature() method which gives the MD5 hash of the uncompressed audio stream.  Use this to find duplicates
+        * could potentially just use an external file hash to get the hash of files in different audio codec types, OR (better) try to get the uncompressed audio streams of other files and run hashes on them
+
+
+implementing Storable:
+    only reading from C structs, not writing, so I might be able to duck implementing poke by just using
+poke a = undefined
+BUT internal Storable APIs might use poke for other functions (like free?)--if so I'll get nasty runtime errors
+    the threat of potential runtime errors might be enough to just implement it anyways
