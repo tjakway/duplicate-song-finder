@@ -17,5 +17,7 @@ include_directories("${CMAKE_SOURCE_DIR}/include")
 
 set(SRC "${CMAKE_SOURCE_DIR}/src")
 
-add_library(MusicReader
+add_library(MusicReader SHARED
     ${SRC}/MusicReader.cpp)
+
+target_link_libraries(MusicReader ${TAGLIB_LIBRARIES})
