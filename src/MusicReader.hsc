@@ -2,7 +2,8 @@
 
 module MusicReader
 ( Codec,
-  Metadata
+  Metadata,
+  readMusicMetadata
 ) where
 
 import Control.Monad
@@ -66,3 +67,4 @@ instance Storable Metadata where
         return (Metadata codec length bitrate channels track marshalledTitle marshalledArtist marshalledAlbum marshalledComment marshalledGenre)
     poke a = undefined
 
+foreign import ccall unsafe "read_metadata" readMusicMetadata :: CString -> IO (Ptr Metadata)
