@@ -57,7 +57,7 @@ instance Storable Metadata where
         album <- ((#peek struct music_metadata, album) a) :: IO CString
         comment <- ((#peek struct music_metadata, comment) a) :: IO CString
         genre <- ((#peek struct music_metadata, genre) a) :: IO CString
-        //FIXME: find replacement for temporary names
+        --FIXME: find replacement for temporary names
         marshalledTitle <- peekCString title
         marshalledArtist <- peekCString artist
         marshalledAlbum <- peekCString album
