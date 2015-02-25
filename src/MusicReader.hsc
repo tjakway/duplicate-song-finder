@@ -2,13 +2,15 @@
 
 module MusicReader
 ( Codec,
-  Metadata
+  Metadata,
+  readMusicMetadata
 ) where
 
 import Control.Monad
 import Foreign
 import Foreign.C.Types
 import Foreign.C.String
+import System.IO.Unsafe as Unsafe
 
 #include "CodecDefines.h"
 #include "MusicReader.h"
@@ -72,3 +74,8 @@ instance Storable Metadata where
 --primReadMusicMetadata and converts the C Pointer into the Haskell data
 --Metadata
 foreign import ccall unsafe "read_metadata" primReadMusicMetadata :: CString -> IO (Ptr Metadata)
+
+--convert the Haskell string to a CString, call into the FFI then
+--dereference the resulting pointer
+readMusicMetadata a = Unsafe.unsafePerformIO $ 
+                        withCString a $ \cs -> ((liftM peek) $ primReadMusicMetadata cs)
