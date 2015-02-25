@@ -77,6 +77,4 @@ foreign import ccall unsafe "read_metadata" primReadMusicMetadata :: CString -> 
 
 --convert the Haskell string to a CString, call into the FFI then
 --dereference the resulting pointer
-{-# NOINLINE readMusicMetadata #-}
-readMusicMetadata a = Unsafe.unsafePerformIO $ 
-                        withCString a $ \cs -> ((liftM peek) $ primReadMusicMetadata cs)
+readMusicMetadata a = join $ withCString a $ \cs -> ((liftM peek) $ primReadMusicMetadata cs)
