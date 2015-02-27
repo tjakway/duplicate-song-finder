@@ -2,7 +2,7 @@
 
 module MusicReader
 ( Codec,
-  Metadata,
+  MusicMetadata,
   readMusicMetadata
 ) where
 
@@ -34,7 +34,7 @@ constantToCodec code
 
 data Codec = MP3 | FLAC | OGG_VORBIS | MP4 | MPEG | NONE | UNKNOWN deriving (Show)
 
-data Metadata = Metadata { codec :: Codec,
+data MusicMetadata = MusicMetadata { codec :: Codec,
                       length :: Int,
                       bitrate :: Int,
                       channels :: Int,
@@ -45,7 +45,7 @@ data Metadata = Metadata { codec :: Codec,
                       comment :: String,
                       genre :: String } deriving (Show)
 
-instance Storable Metadata where
+instance Storable MusicMetadata where
     sizeOf _ = (#size struct music_metadata)
     alignment _ = alignment (undefined::CDouble)
     peek a = do
@@ -65,15 +65,15 @@ instance Storable Metadata where
         marshalledAlbum <- peekCString album
         marshalledComment <- peekCString comment
         marshalledGenre <- peekCString genre
-        return (Metadata codec length bitrate channels track marshalledTitle marshalledArtist marshalledAlbum marshalledComment marshalledGenre)
+        return (MusicMetadata codec length bitrate channels track marshalledTitle marshalledArtist marshalledAlbum marshalledComment marshalledGenre)
     poke a = undefined
 
 --This is the "primitive" FFI call--calls the C function and gets a pointer
 --in return
 --TODO: write a higher level function this module should export that calls
 --primReadMusicMetadata and converts the C Pointer into the Haskell data
---Metadata
-foreign import ccall unsafe "read_metadata" primReadMusicMetadata :: CString -> IO (Ptr Metadata)
+--MusicMetadata
+foreign import ccall unsafe "read_metadata" primReadMusicMetadata :: CString -> IO (Ptr MusicMetadata)
 
 --convert the Haskell string to a CString, call into the FFI then
 --dereference the resulting pointer
