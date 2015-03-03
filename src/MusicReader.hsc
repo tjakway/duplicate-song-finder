@@ -35,10 +35,10 @@ constantToCodec code
 data Codec = MP3 | FLAC | OGG_VORBIS | MP4 | MPEG | NONE | UNKNOWN deriving (Show)
 
 data MusicMetadata = MusicMetadata { codec :: Codec,
-                      length :: Int,
-                      bitrate :: Int,
-                      channels :: Int,
-                      track :: Int,
+                      length :: Int32,
+                      bitrate :: Int32,
+                      channels :: Int32,
+                      track :: Int32,
                       title :: String,
                       artist :: String,
                       album :: String,
@@ -50,10 +50,10 @@ instance Storable MusicMetadata where
     alignment _ = alignment (undefined::CDouble)
     peek a = do
         codec <- liftM constantToCodec $ (((#peek struct music_metadata, codec) a) :: IO Int)
-        length <- ((#peek struct music_metadata, length) a) :: IO Int
-        bitrate <- ((#peek struct music_metadata, bitrate) a) :: IO Int
-        channels <- ((#peek struct music_metadata, channels) a) :: IO Int
-        track <- ((#peek struct music_metadata, bitrate) a) :: IO Int
+        length <- ((#peek struct music_metadata, length) a) :: IO Int32
+        bitrate <- ((#peek struct music_metadata, bitrate) a) :: IO Int32
+        channels <- ((#peek struct music_metadata, channels) a) :: IO Int32
+        track <- ((#peek struct music_metadata, bitrate) a) :: IO Int32
         title <-  ((#peek struct music_metadata, title) a) :: IO CString
         artist <- ((#peek struct music_metadata, artist) a) :: IO CString
         album <- ((#peek struct music_metadata, album) a) :: IO CString
