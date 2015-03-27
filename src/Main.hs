@@ -1,3 +1,5 @@
 import MusicReader
 main = do
-        putStrLn ""
+        file <- getLine
+        metadata <- readMusicMetadata file
+        putStrLn . show $ metadata
